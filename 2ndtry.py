@@ -8,6 +8,6 @@ with DAG(
     schedule="@daily",
     catchup=False,
 ) as dag:
-    start = EmptyOperator(task_id="start")
+    start = EmptyOperator(task_id="start1")
     end = EmptyOperator(task_id="end")
-    start >> end
+    start1 >> end
