@@ -14,7 +14,7 @@ with DAG(
     dag_id ='first_dag_v3',
     default_args=default_args,
     description='this is our first python operator dag',
-    start_date =datetime(2025,10,1),
+    start_date =datetime(2025,10,25),
     schedule_interval='@daily',
     #catchup=True # to cathup shmainei na ekteleitai oses fores eprepe na ektelestei me bash to start date p tou xw orisei mexri shmera analoga to 
     #schedule interval
