@@ -11,7 +11,7 @@ default_args = { # to default_args einai ena dicitonary edw mporwi na exei opoio
 
 
 with DAG(
-    dag_id ='dag_from_laptop',
+    dag_id ='dag_from_laptop_change_from_desktop',
     default_args=default_args,
     description='this is our first python operator dag',
     start_date =datetime(2025,10,25),
