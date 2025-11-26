@@ -13,12 +13,17 @@ ROWS = 40   # number of random rows to generate
 
 
 def generate_random_csv_file():
-    """Generate a random telecom CSV and return the local file path."""
+    """Generate a random telecom CSV with headers and return the local file path."""
     tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".csv")
     file_path = tmp_file.name
 
     with open(file_path, "w", newline="") as f:
-        writer = csv.writer(f, delimiter="\t")
+        writer = csv.writer(f, delimiter=",") # made it comma-seperated
+
+        # HEADER row
+        writer.writerow(["timestamp", "msisdn", "charge", "service"])
+
+        # DATA rows
         for _ in range(ROWS):
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S+01")
             msisdn = random.randint(100000, 999999)
@@ -26,8 +31,9 @@ def generate_random_csv_file():
             service = random.choice(["SMS", "***"])
             writer.writerow([timestamp, msisdn, charge, service])
 
-    print(f"Generated file: {file_path}")
+    print(f"Generated file with headers: {file_path}")
     return file_path
+
 
 
 def upload_to_minio(file_path, **context):
