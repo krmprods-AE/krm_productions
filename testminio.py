@@ -7,7 +7,7 @@ def test_minio():
     hook = S3Hook(aws_conn_id="minio_s3")
 
     # List files inside your bucket "example"
-    keys = hook.list_keys(bucket_name="example")
+    keys = hook.list_keys(bucket_name="test")
 
     print("Files in bucket:", keys)
     return keys
