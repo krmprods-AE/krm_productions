@@ -62,8 +62,7 @@ with DAG(
         python_callable=detect_new_file,
         poke_interval=20,
         timeout=60 * 10,
-        mode="poke",
-        provide_context=True,
+        mode="poke", # xwris provide_context=True, to sensor mono to python operator        
     )
 
     process_file = PythonOperator(
