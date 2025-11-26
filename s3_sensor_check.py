@@ -8,7 +8,7 @@ BUCKET = "example"
 
 
 def process_new_file(**context):
-    key = context["task_instance"].xcom_pull(task_ids="wait_for_csv")
+    key = context["ti"].xcom_pull(task_ids="wait_for_csv")
     print(f"New CSV detected: {key}")
     # Here you later trigger Spark, transform data, load to DB, etc.
 
@@ -29,6 +29,7 @@ with DAG(
         aws_conn_id="minio_s3",
         poke_interval=10,       # check every 20 seconds
         timeout=60 * 5,         # give up after 5 minutes
+        do_xcom_push=True,  # take the name of the new file found
     )
 
     process_file = PythonOperator(
