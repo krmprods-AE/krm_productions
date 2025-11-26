@@ -56,7 +56,7 @@ def upload_to_minio(file_path, **context):
 with DAG(
     dag_id="generate_and_upload_csv",
     start_date=datetime(2025, 1, 1),
-    schedule_interval=None,    # trigger manually for now
+    schedule_interval="*/2 * * * *",   # every 2 minutes
     catchup=False,
     tags=["minio", "etl", "csv"],
 ) as dag:
