@@ -27,7 +27,7 @@ with DAG(
         wildcard_match=True,
         bucket_name=BUCKET,
         aws_conn_id="minio_s3",
-        poke_interval=20,       # check every 20 seconds
+        poke_interval=10,       # check every 20 seconds
         timeout=60 * 5,         # give up after 5 minutes
     )
 
