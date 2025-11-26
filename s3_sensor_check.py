@@ -39,7 +39,7 @@ with DAG(
     )
 
     wait_for_csv >> process_file
-    ❌ Short Answer
+   # Short Answer
 
 # S3KeySensor cannot detect new CSVs,
 # and it does NOT push the actual file name into XCom the way you think.
