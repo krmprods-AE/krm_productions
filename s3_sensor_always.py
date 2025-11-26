@@ -51,7 +51,7 @@ def process_new_file(**context):
 
 with DAG(
     dag_id="s3_minio_sensor_always",
-    start_date=datetime(2025, 1, 1),
+    #start_date=datetime(2025, 1, 1),
     schedule_interval=None,
     catchup=False,
     tags=["minio", "sensor", "new-file"],
