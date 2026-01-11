@@ -13,7 +13,7 @@ with DAG(
         task_id="spark_test",
         application="s3a://spark-jobs/job.py",  # or local path
         conn_id=None,
-        master="spark://spark-master:7077",
+        #master="spark://spark-master:7077",
         deploy_mode="client",
         name="airflow-spark-test",
         verbose=True,
