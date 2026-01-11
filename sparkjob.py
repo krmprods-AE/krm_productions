@@ -10,13 +10,10 @@ with DAG(
 ) as dag:
 
     spark_test = SparkSubmitOperator(
-    task_id="spark_test",
-    application="s3a://spark-jobs/job.py",
-    deploy_mode="client",
-    name="airflow-spark-test",
-    conf={
-        "spark.master": "spark://spark-master:7077",
-    },
-    verbose=True,
-)
-
+        task_id="spark_test",
+        application="s3a://spark-jobs/job.py",
+        conn_id="spark_standalone",
+        deploy_mode="client",
+        name="airflow-spark-test",
+        verbose=True,
+    )
