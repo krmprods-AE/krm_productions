@@ -3,6 +3,7 @@ from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOpe
 from datetime import datetime
 from airflow.hooks.base import BaseHook
 
+conn = BaseHook.get_connection("minio_s3")
 
 with DAG(
     dag_id="spark_submit_test_1",
