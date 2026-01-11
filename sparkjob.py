@@ -16,11 +16,12 @@ with DAG(
         deploy_mode="client",
         name="airflow-spark-test",
         verbose=True,
-        conf={
-        "spark.hadoop.fs.s3a.endpoint": "http://minio:9000",
-        "spark.hadoop.fs.s3a.access.key": "mycustomuser",
-        "spark.hadoop.fs.s3a.secret.key": "pakekfoeo3030d3*(&&&(*!",
-        "spark.hadoop.fs.s3a.path.style.access": "true",
-    },
 
+        # This tells Airflow where to get S3 credentials from
+        aws_conn_id="minio_s3",
+
+        conf={
+            "spark.hadoop.fs.s3a.endpoint": "http://minio:9000",
+            "spark.hadoop.fs.s3a.path.style.access": "true",
+        },
     )
