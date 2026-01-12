@@ -52,4 +52,4 @@ with DAG(
         bash_command="rm -f /opt/spark/jobs/job1.py",        
     )
 
-    fetch_job >> spark_submit >> delete_job
+    delete_job >> fetch_job >> spark_submit >> delete_job
