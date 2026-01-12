@@ -12,7 +12,7 @@ with DAG(
     spark_job = SparkSubmitOperator(
         task_id="spark-fetch-correct",
         application="s3a://spark-jobs/job.py",
-        conn_id="spark_standalone",          # MUST be Spark
+        conn_id="spark_standalone",
         deploy_mode="client",
         name="airflow-spark-job",
         verbose=True,
@@ -23,5 +23,9 @@ with DAG(
             "spark.hadoop.fs.s3a.secret.key": "mypassword",
             "spark.hadoop.fs.s3a.path.style.access": "true",
             "spark.hadoop.fs.s3a.impl": "org.apache.hadoop.fs.s3a.S3AFileSystem",
+
+            # 🔑 THIS IS THE FIX
+            "spark.hadoop.fs.s3a.aws.credentials.provider":
+            "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider",
         },
     )
