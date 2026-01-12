@@ -24,8 +24,8 @@ with DAG(
 
         "spark.hadoop.fs.s3a.access.key": "mycustomuser",
         "spark.hadoop.fs.s3a.secret.key": "pakekfoeo3030d3*(&&&(*!",
-        #"spark.hadoop.fs.s3a.aws.credentials.provider":
-        #    "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider",
+        "spark.hadoop.fs.s3a.aws.credentials.provider":
+            "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider",
 
         # ✅ MinIO compatibility (region/signing)
         #"spark.hadoop.fs.s3a.endpoint.region": "us-east-1",
