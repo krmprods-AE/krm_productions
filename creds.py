@@ -3,7 +3,7 @@ from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOpe
 from datetime import datetime
 
 with DAG(
-    dag_id="spark-region-config-4",
+    dag_id="no_creds",
     start_date=datetime(2024, 1, 1),
     schedule_interval=None,
     catchup=False,
