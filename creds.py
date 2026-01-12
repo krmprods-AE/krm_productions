@@ -3,7 +3,7 @@ from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOpe
 from datetime import datetime
 
 with DAG(
-    dag_id="no_creds",
+    dag_id="s3_spark_submit_operator_final_working",
     start_date=datetime(2024, 1, 1),
     schedule_interval=None,
     catchup=False,
@@ -17,6 +17,10 @@ with DAG(
     name="airflow-spark-job",
     verbose=True,
     spark_binary="/opt/spark/bin/spark-submit",
+    conf={
+        "spark.hadoop.fs.s3a.access.key": "mycustomuser",
+        "spark.hadoop.fs.s3a.secret.key": "pakekfoeo3030d3*(&&&(*!",
+    },
     
 )
 
