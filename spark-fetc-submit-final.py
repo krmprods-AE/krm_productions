@@ -48,7 +48,7 @@ with DAG(
     )
 
     delete_job_first = BashOperator(
-        task_id="delete_spark_job_local_file",
+        task_id="delete_spark_job_local_file_first",
         bash_command="rm -f /opt/spark/jobs/job1.py",        
     )
 
