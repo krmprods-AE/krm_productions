@@ -3,6 +3,7 @@ from airflow.operators.python import PythonOperator
 from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
 from datetime import datetime
+from airflow.operators.bash import BashOperator
 import os
 
 JOB_LOCAL_DIR = "/opt/spark/jobs"
@@ -28,7 +29,7 @@ with DAG(
     start_date=datetime(2024, 1, 1),
     schedule_interval=None,
     catchup=False,
-    tags=["spark", "minio","fetch_s3","working"],
+    tags=["spark", "minio","fetch_s3","working","bash_operator_delete"],
 ) as dag:
     
     fetch_job = PythonOperator(
@@ -46,4 +47,9 @@ with DAG(
         spark_binary="/opt/spark/bin/spark-submit",
     )
 
-    fetch_job >> spark_submit
+    delete_job(        
+        task_id="delete_spark_job_local_file",
+        bash_command="rm -f /opt/spark/jobs/job1.py",        
+    )
+
+    fetch_job >> spark_submit >> delete_job
