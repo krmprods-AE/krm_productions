@@ -18,8 +18,8 @@ def fetch_spark_job():
     hook.download_file(
         key=S3_KEY,
         bucket_name=S3_BUCKET,
-        local_path="/opt/spark/jobs/job.py",
-        preserve_file_name=True,
+        local_path="/opt/spark/jobs/",
+        preserve_file_name=False,
     )
 
 
