@@ -3,7 +3,7 @@ from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOpe
 from datetime import datetime
 
 with DAG(
-    dag_id="spark-region-config-3",
+    dag_id="spark-region-config-4",
     start_date=datetime(2024, 1, 1),
     schedule_interval=None,
     catchup=False,
@@ -18,7 +18,7 @@ with DAG(
     verbose=True,
     spark_binary="/opt/spark/bin/spark-submit",
     conf={
-        "spark.hadoop.fs.s3a.endpoint": "http://minio:9000",
+        #"spark.hadoop.fs.s3a.endpoint": "http://minio:9000",
         #"spark.hadoop.fs.s3a.path.style.access": "true",
         #"spark.hadoop.fs.s3a.connection.ssl.enabled": "false",
 
