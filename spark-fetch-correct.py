@@ -10,29 +10,26 @@ with DAG(
 ) as dag:
 
     spark_job = SparkSubmitOperator(
-        task_id="spark-fetch-correct",
-        application="s3a://spark-jobs/job.py",
-        conn_id="spark_standalone",
-        deploy_mode="client",
-        name="airflow-spark-job",
-        verbose=True,
-        spark_binary="/opt/spark/bin/spark-submit",
-        conf={
-            # MinIO endpoint
-            "spark.hadoop.fs.s3a.endpoint": "http://minio:9000",
-            "spark.hadoop.fs.s3a.path.style.access": "true",
+    task_id="spark-fetch-correct",
+    application="s3a://spark-jobs/job.py",
+    conn_id="spark_standalone",
+    deploy_mode="client",
+    name="airflow-spark-job",
+    verbose=True,
+    spark_binary="/opt/spark/bin/spark-submit",
+    conf={
+        "spark.hadoop.fs.s3a.endpoint": "http://minio:9000",
+        "spark.hadoop.fs.s3a.path.style.access": "true",
+        "spark.hadoop.fs.s3a.connection.ssl.enabled": "false",
 
-            # 🔑 Credentials
-            "spark.hadoop.fs.s3a.access.key": "mycustomuser",
-            "spark.hadoop.fs.s3a.secret.key": "mypassword",
-            "spark.hadoop.fs.s3a.aws.credentials.provider":
-                "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider",
+        "spark.hadoop.fs.s3a.access.key": "mycustomuser",
+        "spark.hadoop.fs.s3a.secret.key": "pakekfoeo3030d3*(&&&(*!",
+        "spark.hadoop.fs.s3a.aws.credentials.provider":
+            "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider",
 
-            # 🔑 REQUIRED FOR MINIO OVER HTTP
-            "spark.hadoop.fs.s3a.connection.ssl.enabled": "false",
+        # ✅ MinIO compatibility (region/signing)
+        "spark.hadoop.fs.s3a.endpoint.region": "us-east-1",
+        "spark.hadoop.fs.s3a.region": "us-east-1",
+    },
+)
 
-            # Explicit filesystem
-            "spark.hadoop.fs.s3a.impl":
-                "org.apache.hadoop.fs.s3a.S3AFileSystem",
-        },
-    )
