@@ -13,6 +13,7 @@ with DAG(
         task_id="spark-fetch-correct",
         application="s3a://spark-jobs/job.py",  # or s3a://... if you want
         conn_id="spark_standalone",
+        conn_id="spark_standalone",
         deploy_mode="client",
         name="airflow-spark-job",
         verbose=True,
