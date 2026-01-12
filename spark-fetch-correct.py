@@ -18,14 +18,21 @@ with DAG(
         verbose=True,
         spark_binary="/opt/spark/bin/spark-submit",
         conf={
+            # MinIO endpoint
             "spark.hadoop.fs.s3a.endpoint": "http://minio:9000",
+            "spark.hadoop.fs.s3a.path.style.access": "true",
+
+            # 🔑 Credentials
             "spark.hadoop.fs.s3a.access.key": "mycustomuser",
             "spark.hadoop.fs.s3a.secret.key": "mypassword",
-            "spark.hadoop.fs.s3a.path.style.access": "true",
-            "spark.hadoop.fs.s3a.impl": "org.apache.hadoop.fs.s3a.S3AFileSystem",
-
-            # 🔑 THIS IS THE FIX
             "spark.hadoop.fs.s3a.aws.credentials.provider":
-            "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider",
+                "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider",
+
+            # 🔑 REQUIRED FOR MINIO OVER HTTP
+            "spark.hadoop.fs.s3a.connection.ssl.enabled": "false",
+
+            # Explicit filesystem
+            "spark.hadoop.fs.s3a.impl":
+                "org.apache.hadoop.fs.s3a.S3AFileSystem",
         },
     )
