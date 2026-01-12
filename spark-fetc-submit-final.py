@@ -47,9 +47,14 @@ with DAG(
         spark_binary="/opt/spark/bin/spark-submit",
     )
 
+    delete_job_first = BashOperator(
+        task_id="delete_spark_job_local_file",
+        bash_command="rm -f /opt/spark/jobs/job1.py",        
+    )
+
     delete_job = BashOperator(
         task_id="delete_spark_job_local_file",
         bash_command="rm -f /opt/spark/jobs/job1.py",        
     )
 
-    delete_job >> fetch_job >> spark_submit >> delete_job
+    delete_job_first >> fetch_job >> spark_submit >> delete_job
