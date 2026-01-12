@@ -44,6 +44,7 @@ with DAG(
         deploy_mode="client",
         name="airflow-spark-job",
         verbose=True,
+        spark_binary="/opt/spark/bin/spark-submit",
     )
 
     fetch_job >> spark_submit
