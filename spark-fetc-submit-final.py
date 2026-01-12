@@ -49,7 +49,7 @@ with DAG(
 
     delete_job = BashOperator(
         task_id="delete_spark_job_local_file",
-        bash_command="rm -f JOB_LOCAL_PATH",        
+        bash_command="rm -f /opt/spark/jobs/job1.py",        
     )
 
     fetch_job >> spark_submit >> delete_job
