@@ -28,8 +28,8 @@ with DAG(
             "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider",
 
         # ✅ MinIO compatibility (region/signing)
-        #"spark.hadoop.fs.s3a.endpoint.region": "us-east-1",
-        #"spark.hadoop.fs.s3a.region": "us-east-1",
+        "spark.hadoop.fs.s3a.endpoint.region": "us-east-1",
+        "spark.hadoop.fs.s3a.region": "us-east-1",
     },
 )
 
