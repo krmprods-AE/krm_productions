@@ -7,6 +7,7 @@ with DAG(
     start_date=datetime(2024, 1, 1),
     schedule_interval=None,
     catchup=False,
+    tags=["spark-submit-operator-only","spark","working","minio","no-fetch"],
 ) as dag:
 
     spark_job = SparkSubmitOperator(
