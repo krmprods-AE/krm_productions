@@ -28,7 +28,7 @@ with DAG(
     start_date=datetime(2024, 1, 1),
     schedule_interval=None,
     catchup=False,
-    tags=["spark", "minio","working"],
+    tags=["spark", "minio","fetch_s3""working"],
 ) as dag:
     
     fetch_job = PythonOperator(
