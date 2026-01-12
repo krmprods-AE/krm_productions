@@ -1,7 +1,6 @@
 from airflow import DAG
 from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
 from datetime import datetime
-from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 
 with DAG(
     dag_id="spark_submit_simple",
@@ -12,13 +11,17 @@ with DAG(
 
     spark_job = SparkSubmitOperator(
         task_id="spark-fetch-correct",
-        application="s3a://spark-jobs/job.py",  # or s3a://... if you want
-        conn_id="minio_s3",
-        #conn_id="spark_standalone",
+        application="s3a://spark-jobs/job.py",
+        conn_id="spark_standalone",          # MUST be Spark
         deploy_mode="client",
         name="airflow-spark-job",
         verbose=True,
-
-        # 🔑 THIS IS THE KEY LINE
         spark_binary="/opt/spark/bin/spark-submit",
+        conf={
+            "spark.hadoop.fs.s3a.endpoint": "http://minio:9000",
+            "spark.hadoop.fs.s3a.access.key": "mycustomuser",
+            "spark.hadoop.fs.s3a.secret.key": "mypassword",
+            "spark.hadoop.fs.s3a.path.style.access": "true",
+            "spark.hadoop.fs.s3a.impl": "org.apache.hadoop.fs.s3a.S3AFileSystem",
+        },
     )
