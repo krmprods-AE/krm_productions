@@ -9,7 +9,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id="httpo_operator_1",
+    dag_id="http_operator_1",
     default_args=default_args,
     start_date=days_ago(1),
     schedule_interval=None,
