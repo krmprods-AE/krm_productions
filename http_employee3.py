@@ -9,12 +9,12 @@ default_args = {
 }
 
 with DAG(
-    dag_id="http_operator_employee3",
+    dag_id="http_operator_employee3_S3",
     default_args=default_args,
     start_date=days_ago(1),
     schedule_interval=None,
     catchup=False,
-    tags=["http","spark","spark_gateway","employee3"],
+    tags=["http","spark","spark_gateway","employee3","S3"],
 ) as dag:
 
     submit_spark_job = SimpleHttpOperator(
@@ -24,7 +24,7 @@ with DAG(
         method="POST",
         headers={"Content-Type": "application/json"},
         data=json.dumps({
-            "jar": "job.py",        # your API still uses "jar"
+            "jar": "s3a://spark-jobs/job.py",        # your API still uses "jar"
             "args": []              # optional args
         }),
         response_filter=lambda response: response.json(),
