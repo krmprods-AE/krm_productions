@@ -24,7 +24,7 @@ with DAG(
         method="POST",
         headers={"Content-Type": "application/json"},
         data=json.dumps({
-            "jar": "s3a://spark-jobs/job.py",        # your API still uses "jar"
+            "jar": "s3a://spark-jobs/app_read_join.py",        # your API still uses "jar"
             "args": []              # optional args
         }),
         response_filter=lambda response: response.json(),
