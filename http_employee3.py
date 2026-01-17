@@ -18,7 +18,7 @@ with DAG(
 ) as dag:
 
     submit_spark_job1 = SimpleHttpOperator(
-        task_id="submit_spark_job",
+        task_id="submit_spark_job1",
         http_conn_id="employee3",
         endpoint="/submit-job",
         method="POST",
@@ -32,7 +32,7 @@ with DAG(
     )
 
     submit_spark_job2 = SimpleHttpOperator(
-        task_id="submit_spark_job",
+        task_id="submit_spark_job2",
         http_conn_id="employee3",
         endpoint="/submit-job",
         method="POST",
