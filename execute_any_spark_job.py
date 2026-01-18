@@ -16,7 +16,7 @@ with DAG(
     start_date=days_ago(1),
     schedule_interval=None,
     catchup=False,
-    tags=["http","spark","spark_gateway","employee3","S3","2_jobs","sensor","wait"],
+    tags=["http","spark","spark_gateway","execute_any_spark_job"],
 ) as dag:
 
     submit_spark_job1 = SimpleHttpOperator(
