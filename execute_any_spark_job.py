@@ -29,6 +29,5 @@ with DAG(
             "jar": "s3a://spark-jobs/tet.py",        # your API still uses "jar"
             "args": []              # optional args
         }),
-        response_filter=lambda response: response.json(),
-        log_response=True,
+       
     )
