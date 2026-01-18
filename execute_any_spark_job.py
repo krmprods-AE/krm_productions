@@ -5,6 +5,11 @@ from airflow.sensors.python import PythonSensor
 import boto3
 import json
 
+default_args = {
+    "owner": "airflow",
+    "retries": 1,
+}
+
 with DAG(
     dag_id="execute_any_spark_job",
     default_args=default_args,
