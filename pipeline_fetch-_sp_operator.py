@@ -9,9 +9,9 @@ from airflow.sensors.python import PythonSensor
 import os
 
 JOB_LOCAL_DIR = "/opt/spark/jobs"
-JOB_LOCAL_PATH = [f"{JOB_LOCAL_DIR}/job1.py", f"{JOB_LOCAL_DIR}/job2.py"]
+JOB_LOCAL_PATH = [f"{JOB_LOCAL_DIR}/app_read_join.py", f"{JOB_LOCAL_DIR}/1_csv_write.py"]
 S3_BUCKET = "spark-jobs"
-S3_KEYS = ["job1.py","job2.py"]
+S3_KEYS = ["app_read_join.py","1_csv_write.py"]
 
 
 def fetch_spark_job():
