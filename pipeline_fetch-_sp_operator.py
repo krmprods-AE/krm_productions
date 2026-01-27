@@ -26,22 +26,13 @@ def fetch_spark_job():
         preserve_file_name=True,
     )
 def parquet_exists():
-    s3 = boto3.client(
-        "s3",
-        endpoint_url="http://minio:9000",
-        aws_access_key_id="mycustomuser",
-        aws_secret_access_key="pakekfoeo3030d3*(&&&(*!",
-    )
+    hook = S3Hook(aws_conn_id="minio_s3")
+    s3 = hook.get_conn()
 
-    response = s3.list_objects_v2(
-        Bucket="analytics",
-        Prefix="joined_orders/"
-    )
+    resp = s3.list_objects_v2(Bucket="analytics", Prefix="joined_orders/")
+    contents = resp.get("Contents", [])
+    return any(obj["Key"].endswith(".parquet") for obj in contents)
 
-    if "Contents" not in response:
-        return False
-
-    return any(obj["Key"].endswith(".parquet") for obj in response["Contents"])
 
 
 
