@@ -4,10 +4,12 @@ from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
 from datetime import datetime
 from airflow.operators.bash import BashOperator
+import boto3
+from airflow.sensors.python import PythonSensor
 import os
 
 JOB_LOCAL_DIR = "/opt/spark/jobs"
-JOB_LOCAL_PATH = f"{JOB_LOCAL_DIR}/job1.py"
+JOB_LOCAL_PATH = [f"{JOB_LOCAL_DIR}/job1.py", f"{JOB_LOCAL_DIR}/job2.py"]
 S3_BUCKET = "spark-jobs"
 S3_KEYS = ["job1.py","job2.py"]
 
@@ -23,6 +25,25 @@ def fetch_spark_job():
             local_path=JOB_LOCAL_DIR,
         preserve_file_name=True,
     )
+def parquet_exists():
+    s3 = boto3.client(
+        "s3",
+        endpoint_url="http://minio:9000",
+        aws_access_key_id="mycustomuser",
+        aws_secret_access_key="pakekfoeo3030d3*(&&&(*!",
+    )
+
+    response = s3.list_objects_v2(
+        Bucket="analytics",
+        Prefix="joined_orders/"
+    )
+
+    if "Contents" not in response:
+        return False
+
+    return any(obj["Key"].endswith(".parquet") for obj in response["Contents"])
+
+
 
 
 with DAG(
@@ -38,24 +59,41 @@ with DAG(
         python_callable=fetch_spark_job,
     )
 
-    spark_submit = SparkSubmitOperator(
-        task_id="run_spark_job",
-        application=JOB_LOCAL_PATH,
+    spark_submit_1 = SparkSubmitOperator(
+        task_id="run_spark_job_1",
+        application=JOB_LOCAL_PATH[0],
         conn_id="spark_standalone",
         deploy_mode="client",
-        name="airflow-spark-job",
+        name="airflow-spark-job-1",
         verbose=False,
         spark_binary="/opt/spark/bin/spark-submit",
     )
+    spark_submit_2 = SparkSubmitOperator(
+        task_id="run_spark_job_2",
+        application=JOB_LOCAL_PATH[1],
+        conn_id="spark_standalone",
+        deploy_mode="client",
+        name="airflow-spark-job-2",
+        verbose=False,
+        spark_binary="/opt/spark/bin/spark-submit",
+    )
+    wait_for_parquet = PythonSensor(
+    task_id="wait_for_parquet_files",
+    python_callable=parquet_exists,
+    poke_interval=10,
+    timeout=300,
+    mode="reschedule",
+        )
+    job_delete = delete_job_1 >> delete_job_2
 
-    delete_job_first = BashOperator(
+    delete_job_1 = BashOperator(
         task_id="delete_spark_job_local_file_first",
         bash_command="rm -f /opt/spark/jobs/job1.py",        
     )
 
-    delete_job = BashOperator(
+    delete_job_2 = BashOperator(
         task_id="delete_spark_job_local_file",
-        bash_command="rm -f /opt/spark/jobs/job1.py",        
+        bash_command="rm -f /opt/spark/jobs/job2.py",        
     )
 
-    delete_job_first >> fetch_job >> spark_submit >> delete_job
+    job_delete >> fetch_job >> spark_submit_1 >> wait_for_parquet >> spark_submit_2 >> job_delete
