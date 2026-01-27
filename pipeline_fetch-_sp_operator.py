@@ -86,15 +86,16 @@ with DAG(
         )
     
 
-    delete_job_1 = BashOperator(
+    delete_job_first = BashOperator(
         task_id="delete_spark_job_local_file_first",
-        bash_command="rm -f /opt/spark/jobs/job1.py",        
+        bash_command="rm -f /opt/spark/jobs/job1.py /" \
+        "opt/spark/jobs/job2.py",        
     )
 
-    delete_job_2 = BashOperator(
+    delete_job_after = BashOperator(
         task_id="delete_spark_job_local_file",
-        bash_command="rm -f /opt/spark/jobs/job2.py",        
+        bash_command="rm -f /opt/spark/jobs/job1.py /" \
+        "opt/spark/jobs/job2.py",        
     )
-    job_delete_first = delete_job_1 >> delete_job_2
-    job_delete_after = delete_job_1 >> delete_job_2
-    job_delete_first >> fetch_job >> spark_submit_1 >> wait_for_parquet >> spark_submit_2 >> job_delete_after
+    
+    delete_job_first >> fetch_job >> spark_submit_1 >> wait_for_parquet >> spark_submit_2 >> delete_job_after
