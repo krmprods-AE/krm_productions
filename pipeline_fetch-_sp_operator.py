@@ -61,7 +61,8 @@ with DAG(
 
     spark_submit_1 = SparkSubmitOperator(
         task_id="run_spark_job_1",
-        application=JOB_LOCAL_PATH[0],
+        #application=JOB_LOCAL_PATH[0],
+        application="/opt/spark/jobs/app_read_join.py",
         conn_id="spark_standalone",
         deploy_mode="client",
         name="airflow-spark-job-1",
@@ -70,7 +71,8 @@ with DAG(
     )
     spark_submit_2 = SparkSubmitOperator(
         task_id="run_spark_job_2",
-        application=JOB_LOCAL_PATH[1],
+        #application=JOB_LOCAL_PATH[1],
+        application="/opt/spark/jobs/1_csv_write.py",
         conn_id="spark_standalone",
         deploy_mode="client",
         name="airflow-spark-job-2",
@@ -97,5 +99,5 @@ with DAG(
         bash_command="rm -f /opt/spark/jobs/app_read_join.py /" \
         "opt/spark/jobs/1_csv_write.py",        
     )
-    delete_job_first
-    #delete_job_first >> fetch_job >> spark_submit_1 >> wait_for_parquet >> spark_submit_2 >> delete_job_after
+    
+    delete_job_first >> fetch_job >> spark_submit_1 >> wait_for_parquet >> spark_submit_2 >> delete_job_after
