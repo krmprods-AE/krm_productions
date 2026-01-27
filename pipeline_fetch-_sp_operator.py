@@ -97,5 +97,5 @@ with DAG(
         bash_command="rm -f /opt/spark/jobs/app_read_join.py /" \
         "opt/spark/jobs/1_csv_write.py",        
     )
-    
-    delete_job_first >> fetch_job >> spark_submit_1 >> wait_for_parquet >> spark_submit_2 >> delete_job_after
+    delete_job_first
+    #delete_job_first >> fetch_job >> spark_submit_1 >> wait_for_parquet >> spark_submit_2 >> delete_job_after
